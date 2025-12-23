@@ -6,46 +6,57 @@
 #    By: asoria <asoria@stedent.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/15 00:26:06 by asoria            #+#    #+#              #
-#    Updated: 2025/12/17 14:24:56 by asoria           ###   ########.fr        #
+#    Updated: 2025/12/21 14:58:51 by asoria           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:= minishell
-CC		:= cc
-CFLAGS		:= -Wall -Wextra -Werror -Iincludes -Ilibft -g3 -O3 -march=native -flto -pipe
+CC		?= cc
+CFLAGS		?= -Wall -Wextra -Werror -Wpedantic -g -O3
+CPPFLAGS	?= -Iincludes -Iincludes/libft -lreadline
 SRC_DIR		:= src
-SRC_FILES	:= minishell.c
 OBJ_DIR		:= obj
-OBJ_FILES	:= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
-#LIBFT_DIR	:= includes/libft
-#LIBFT		:= $(LIBFT_DIR)/libft.a
+OBJ		= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
+LIBFT_DIR	:= includes/libft
+LIBFT		:= $(LIBFT_DIR)/libft.a
 TARGET_DIR	:= target
+RM		?= rm
+
+SRC	:= \
+	minishell.c \
+	init.c \
+	parsing.c
+
 
 all:	$(NAME)
 
 clean:
-	@rm -rf $(OBJ_DIR)
-	@rm -rf $(TARGET_DIR)
-#	$(MAKE) -C $(LIBFT_DIR) clean
+	$(RM) -rf $(OBJ_DIR)
+	$(MAKE) -C $(LIBFT_DIR) clean
 
-fclean:	clean
-	@rm -f $(NAME)
-#	rm -f $(LIBFT)
+fclean:
+	$(RM) -rf $(TARGET_DIR)
+	$(MAKE) -C $(LIBFT_DIR) fclean
+	$(MAKE) clean
 
-re: clean fclean all
+re:
+	$(MAKE) fclean
+	$(MAKE) all
 
-$(NAME): $(OBJ_FILES) $(TARGET_DIR)
-	@$(CC) $(CFLAGS) $(OBJ_FILES) -o $(TARGET_DIR)/$(NAME)
-	@echo -e "\033[32m[✔] Built $(NAME)\033[0m"
+$(NAME): $(OBJ) $(LIBFT) | $(TARGET_DIR)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJ) $(LIBFT) -o $(TARGET_DIR)/$(NAME)
+
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
 
 $(OBJ_DIR):
-	mkdir $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)
 
 $(TARGET_DIR):
-	mkdir $(TARGET_DIR)
+	mkdir -p $(TARGET_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 .PHONY: all clean fclean re
 
