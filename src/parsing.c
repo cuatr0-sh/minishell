@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 13:06:27 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/21 15:03:00 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/23 01:48:04 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,14 @@ char	*get_prompt(void)
 
 void    read_input(t_shell *shell)
 {
-        char    *input;
-        char    *prompt;
-        char    *command;
+	char    *input;
+	char    *prompt;
+//	char    *command;
 
         (void)shell;
         input = NULL;
-        while ((input = readline("%s ", prompt)) != NULL)
+	prompt = "\033[32mstudent\033[0m@42: "; /* get_prompt() */
+        while ((input = readline(prompt)) != NULL)
         {  
                 if (*input) add_history(input);
                 free(input);
