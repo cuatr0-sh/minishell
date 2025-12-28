@@ -18,25 +18,22 @@ static void	process_input(char *input, t_shell *shell)
 	printf("Input: %s\n", input);
 }
 
-char	*get_prompt(void)
+char	*get_prompt(t_shell *shell)
 {
-	int	i;
+	//int	i;
 	int	fd;
 	char	*prompt;
-	char	*config_file;
 
-	i = 0;
-	config_file = ".msrc";
-	prompt = "minishell";
-	fd = open(config_file, O_RDONLY | O_CREAT,  644);
+	//i = 0;
+	prompt = "\033[32mstudent@42\033[34m - $ \033[0m";
+	fd = open(shell->config_file, O_RDWR | O_CREAT,  0644);
 	if (fd < 0)
 	{
 		perror("open");
-		close(fd);
 		return (prompt);
 	}
-	while (ft_strnstr(config_file, "prompt", 6) == 0)
-		i++;
+	//while (ft_strnstr(config_file, "prompt", 6) == 0)
+	//	i++;
 	close(fd);
 	return (prompt);
 }
@@ -50,7 +47,7 @@ void    read_input(t_shell *shell)
         (void)shell;
         input = NULL;
 	/* this will have to change to get_prompt() to get custom colors, prompt and all that bs */
-	prompt = "\033[32mstudent@42\033[34m - $ \033[0m";
+	prompt = get_prompt(shell);
         while ((input = readline(prompt)) != NULL)
         {  
                 if (*input) add_history(input);

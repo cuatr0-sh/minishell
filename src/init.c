@@ -38,5 +38,6 @@ int	init_shell(char **argv, char **envp, t_shell *shell)
 		j++;
 	}
 	shell->envp[j] = NULL;
+	shell->config_file = ".msrc";
 	return (0);
 }

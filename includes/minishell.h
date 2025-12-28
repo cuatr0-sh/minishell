@@ -25,6 +25,7 @@ typedef struct	s_shell
 	char	**envp;
 	char	**path;
 	char	*prompt;
+	char	*config_file;
 }		t_shell;
 
 /* init.c */

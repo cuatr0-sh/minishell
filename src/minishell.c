@@ -14,7 +14,7 @@
 
 void	minishell(t_shell *shell)
 {
-	//	print_envp(shell);
+		print_envp(shell);
 		read_input(shell);
 }
 
