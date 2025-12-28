@@ -6,7 +6,7 @@
 #    By: asoria <asoria@stedent.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/15 00:26:06 by asoria            #+#    #+#              #
-#    Updated: 2025/12/21 14:58:51 by asoria           ###   ########.fr        #
+#    Updated: 2025/12/28 21:19:18 by asoria           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,8 +25,9 @@ RM		?= rm
 SRC	:= \
 	minishell.c \
 	init.c \
-	parsing.c
-
+	parsing.c \
+	debug.c \
+	cleanup.c
 
 all:	$(NAME)
 

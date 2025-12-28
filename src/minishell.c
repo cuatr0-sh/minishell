@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:46:23 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/21 14:57:17 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/28 21:23:35 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,19 @@
 
 void	minishell(t_shell *shell)
 {
-	while (1)
-	{
+	//	print_envp(shell);
 		read_input(shell);
-	}
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell	*shell;
+	t_shell	shell;
 
 	(void)argc;
-	shell = NULL;
-	init_shell(argv, envp, shell);
-	minishell(shell);
-	if (!shell)
+	ft_bzero(&shell, sizeof(t_shell));
+	if (init_shell(argv, envp, &shell))
 		return (1);
-	
+	minishell(&shell);
+	black_hole(&shell);
 	return (0);
 }

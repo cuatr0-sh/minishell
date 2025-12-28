@@ -6,11 +6,17 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 13:06:27 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/23 01:48:04 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/28 21:09:25 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	process_input(char *input, t_shell *shell)
+{
+	(void)shell;
+	printf("Input: %s\n", input);
+}
 
 char	*get_prompt(void)
 {
@@ -26,6 +32,7 @@ char	*get_prompt(void)
 	if (fd < 0)
 	{
 		perror("open");
+		close(fd);
 		return (prompt);
 	}
 	while (ft_strnstr(config_file, "prompt", 6) == 0)
@@ -42,11 +49,12 @@ void    read_input(t_shell *shell)
 
         (void)shell;
         input = NULL;
-	prompt = "\033[32mstudent\033[0m@42: "; /* get_prompt() */
+	/* this will have to change to get_prompt() to get custom colors, prompt and all that bs */
+	prompt = "\033[32mstudent@42\033[34m - $ \033[0m";
         while ((input = readline(prompt)) != NULL)
         {  
                 if (*input) add_history(input);
+			process_input(input, shell);
                 free(input);
         }  
 }
-	
