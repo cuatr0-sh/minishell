@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 13:06:27 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/29 13:40:17 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/29 15:18:51 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	process_input(char *input, t_shell *shell)
 {
 	(void)shell;
-	printf("Input: %s\n", input);
 }
 
 /* WIP: Will extract custom PS1 from ".msrc" config file */
@@ -25,17 +24,19 @@ char	*get_prompt(t_shell *shell)
 	return ("\033[32mStudent@42\033[34m - $ \033[0m");
 }
 
-void    read_input(t_shell *shell)
+void	read_input(t_shell *shell)
 {
-	char    *input;
-	char    *prompt;
+	char	*input;
+	char	*prompt;
 
-        input = NULL;
+	input = NULL;
 	prompt = get_prompt(shell);
-        while ((input = readline(prompt)) != NULL)
-        {  
-                if (*input) add_history(input);
-			process_input(input, shell);
-                free(input);
-        }  
+	input = readline(prompt);
+	while (input != NULL)
+	{
+		if (*input)
+			add_history(input);
+		process_input(input, shell);
+		free(input);
+	}
 }
