@@ -30,6 +30,7 @@ typedef struct s_shell
 	char	**path;
 	char	*prompt;
 	char	*config_file;
+	char	*history_file;
 }		t_shell;
 
 /* init.c */

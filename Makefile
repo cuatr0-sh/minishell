@@ -6,7 +6,7 @@
 #    By: asoria <asoria@stedent.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/15 00:26:06 by asoria            #+#    #+#              #
-#    Updated: 2025/12/29 21:54:09 by asoria           ###   ########.fr        #
+#    Updated: 2025/12/29 22:44:54 by asoria           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,8 @@ SRC	:= \
 all:	$(NAME)
 
 clean:
+	$(RM) -f ".msrc"
+	$(RM) -f ".ms_history"
 	$(RM) -rf $(OBJ_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean
 

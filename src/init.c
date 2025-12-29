@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 01:51:27 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/29 15:16:32 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/29 22:43:51 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,18 @@ static void	init_config_file(t_shell *shell)
 		close(fd);
 }
 
+static void	init_rl_history(t_shell *shell)
+{
+	shell->history_file = ".ms_history";
+	read_history(shell->history_file);
+}
+
 int	init_shell(char **argv, char **envp, t_shell *shell)
 {
 	(void)argv;
 	ft_bzero(shell, sizeof(t_shell));
 	get_envp(envp, shell);
 	init_config_file(shell);
+	init_rl_history(shell);
 	return (0);
 }
