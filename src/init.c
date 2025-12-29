@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 01:51:27 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/29 13:33:05 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/29 15:16:32 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	get_envp(char **envp, t_shell *shell)
 		i++;
 	shell->envp = malloc(sizeof(char *) * (i + 1));
 	if (!shell->envp)
-		return(1);
+		return (1);
 	j = 0;
 	while (j < i)
 	{
