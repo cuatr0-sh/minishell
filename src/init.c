@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 01:51:27 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/29 13:20:59 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/29 13:33:05 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static void	init_config_file(t_shell *shell)
 int	init_shell(char **argv, char **envp, t_shell *shell)
 {
 	(void)argv;
+	ft_bzero(shell, sizeof(t_shell));
 	get_envp(envp, shell);
 	init_config_file(shell);
 	return (0);
