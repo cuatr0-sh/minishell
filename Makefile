@@ -6,7 +6,7 @@
 #    By: asoria <asoria@stedent.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/15 00:26:06 by asoria            #+#    #+#              #
-#    Updated: 2025/12/28 21:19:18 by asoria           ###   ########.fr        #
+#    Updated: 2025/12/29 16:51:38 by asoria           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ SRC	:= \
 	init.c \
 	parsing.c \
 	debug.c \
-	cleanup.c
+	cleanup.c \
+	executing.c
 
 all:	$(NAME)
 
