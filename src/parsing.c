@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 13:06:27 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/29 21:04:18 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/29 21:45:39 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	process_input(char *input, t_shell *shell)
 {
 	pid_t	pid;
-	int	status;
+	int		status;
 
 	pid = fork();
 	if (pid == -1)
@@ -47,11 +47,11 @@ void	read_input(t_shell *shell)
 	char	*prompt;
 
 	prompt = get_prompt(shell);
-	while (1) 
+	while (1)
 	{
 		input = readline(prompt);
 		if (!input)
-			break;
+			break ;
 		if (*input)
 			add_history(input);
 		process_input(input, shell);

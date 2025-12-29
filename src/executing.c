@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/29 20:33:25 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/29 21:49:50 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,14 @@ void	execute(char *argv, char **envp)
 	path = find_path(cmd[0], envp);
 	if (!path)
 	{
-	/* it exits through here after executing one single command */
 		free_split(cmd);
-		exit(4);
+		exit(127);
 	}
 	if (execve(path, cmd, envp) == -1)
 	{
 		free(path);
 		free_split(cmd);
+		printf("minishell: %s: command not found", cmd[0]);
 		exit(126);
 	}
 }
