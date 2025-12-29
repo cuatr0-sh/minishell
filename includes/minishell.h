@@ -6,23 +6,23 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/29 13:10:25 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/29 15:15:51 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "libft/libft.h"
+# include <stdio.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include <string.h>
+# include <errno.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include "libft/libft.h"
 
-typedef struct	s_shell
+typedef struct s_shell
 {
 	char	**envp;
 	char	**path;
@@ -31,8 +31,7 @@ typedef struct	s_shell
 }		t_shell;
 
 /* init.c */
-int	init_shell(char **argv, char **envp, t_shell *shell);
-
+int		init_shell(char **argv, char **envp, t_shell *shell);
 
 void	read_input(t_shell *shell);
 
@@ -43,4 +42,3 @@ void	print_envp(t_shell *shell);
 void	black_hole(t_shell *shell);
 
 #endif
-
