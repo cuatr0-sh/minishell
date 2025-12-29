@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 13:06:27 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/29 15:18:51 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/29 15:30:58 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	process_input(char *input, t_shell *shell)
 {
 	(void)shell;
+	(void)input;
 }
 
 /* WIP: Will extract custom PS1 from ".msrc" config file */
