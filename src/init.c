@@ -6,18 +6,17 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 01:51:27 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/28 16:47:20 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/29 13:20:59 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	init_shell(char **argv, char **envp, t_shell *shell)
+static int	get_envp(char **envp, t_shell *shell)
 {
 	int	i;
 	int	j;
 
-	(void)argv;
 	i = 0;
 	while (envp[i])
 		i++;
@@ -38,6 +37,25 @@ int	init_shell(char **argv, char **envp, t_shell *shell)
 		j++;
 	}
 	shell->envp[j] = NULL;
+	return (0);
+}
+
+static void	init_config_file(t_shell *shell)
+{
+	int	fd;
+
 	shell->config_file = ".msrc";
+	fd = open(shell->config_file, O_RDWR | O_CREAT, 0644);
+	if (fd < 0)
+		printf("Couldn't open .msrc: %s\n", strerror(errno));
+	else
+		close(fd);
+}
+
+int	init_shell(char **argv, char **envp, t_shell *shell)
+{
+	(void)argv;
+	get_envp(envp, shell);
+	init_config_file(shell);
 	return (0);
 }

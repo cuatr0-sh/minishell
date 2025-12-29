@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 13:06:27 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/28 21:09:25 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/29 13:04:01 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*get_prompt(t_shell *shell)
 
 	//i = 0;
 	prompt = "\033[32mstudent@42\033[34m - $ \033[0m";
-	fd = open(shell->config_file, O_RDWR | O_CREAT,  0644);
+	fd = open(shell->config_file, O_RDONLY);
 	if (fd < 0)
 	{
 		perror("open");

@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:46:23 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/28 21:23:35 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/29 13:01:12 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	minishell(t_shell *shell)
 {
-		print_envp(shell);
+		//print_envp(shell);
 		read_input(shell);
 }
 
