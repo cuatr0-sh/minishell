@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/29 21:49:50 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/30 03:29:40 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	free_split(char **split)
 	free(split);
 }
 
-char	*find_path(char *cmd, char **envp)
+char	*find_path(char *tokens, char **envp)
 {
 	char	**paths;
 	char	*path;
@@ -42,7 +42,7 @@ char	*find_path(char *cmd, char **envp)
 	while (paths[i])
 	{
 		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, cmd);
+		path = ft_strjoin(part_path, tokens);
 		free(part_path);
 		if (access(path, F_OK) == 0)
 			return (free_split(paths), path);
@@ -53,31 +53,31 @@ char	*find_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-void	execute(char *argv, char **envp)
+void	execute(char *input, char **envp)
 {
 	char	*path;
-	char	**cmd;
+	char	**tokens;
 
-	if (!argv || !*argv)
+	if (!input || !*input)
 		exit(127);
-	cmd = ft_split(argv, ' ');
-	if (!cmd || !cmd[0] || !cmd[0][0])
+	tokens = ft_split(input, ' ');
+	if (!tokens || !tokens[0] || !tokens[0][0])
 	{
-		if (cmd)
-			free_split(cmd);
+		if (tokens)
+			free_split(tokens);
 		exit(127);
 	}
-	path = find_path(cmd[0], envp);
+	path = find_path(tokens[0], envp);
 	if (!path)
 	{
-		free_split(cmd);
+		free_split(tokens);
 		exit(127);
 	}
-	if (execve(path, cmd, envp) == -1)
+	if (execve(path, tokens, envp) == -1)
 	{
 		free(path);
-		free_split(cmd);
-		printf("minishell: %s: command not found", cmd[0]);
+		free_split(tokens);
+		printf("minishell: %s: command not found", tokens[0]);
 		exit(126);
 	}
 }
