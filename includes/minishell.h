@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/29 20:56:27 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/31 19:52:39 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <errno.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
@@ -29,6 +30,7 @@ typedef struct s_shell
 	char	**envp;
 	char	**path;
 	char	*prompt;
+	char	*input;
 	char	*config_file;
 	char	*history_file;
 }		t_shell;
@@ -47,5 +49,8 @@ void	black_hole(t_shell *shell);
 /* executing.c  */
 char	*find_path(char *cmd, char **envp);
 void	execute(char *argv, char **envp);
+
+/* cd.c */
+char	*ms_cd(t_shell *shell);
 
 #endif

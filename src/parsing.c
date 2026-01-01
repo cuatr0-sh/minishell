@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 13:06:27 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/29 21:45:39 by asoria           ###   ########.fr       */
+/*   Updated: 2025/12/31 20:11:11 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	process_input(char *input, t_shell *shell)
 {
+/*
 	pid_t	pid;
 	int		status;
 
@@ -32,6 +33,7 @@ static void	process_input(char *input, t_shell *shell)
 	{
 		waitpid(pid, &status, 0);
 	}
+	*/
 }
 
 /* WIP: Will extract custom PS1 from ".msrc" config file */
@@ -43,18 +45,17 @@ char	*get_prompt(t_shell *shell)
 
 void	read_input(t_shell *shell)
 {
-	char	*input;
 	char	*prompt;
 
 	prompt = get_prompt(shell);
 	while (1)
 	{
-		input = readline(prompt);
-		if (!input)
+		shell->input = readline(prompt);
+		if (!shell->input)
 			break ;
-		if (*input)
-			add_history(input);
-		process_input(input, shell);
-		free(input);
+		if (*shell->input)
+			add_history(shell->input);
+		process_input(shell->input, shell);
+		free(shell->input);
 	}
 }

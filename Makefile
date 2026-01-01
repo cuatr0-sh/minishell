@@ -6,7 +6,7 @@
 #    By: asoria <asoria@stedent.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/15 00:26:06 by asoria            #+#    #+#              #
-#    Updated: 2025/12/29 22:44:54 by asoria           ###   ########.fr        #
+#    Updated: 2025/12/31 19:49:23 by asoria           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,19 +16,21 @@ CFLAGS		?= -Wall -Wextra -Werror -Wpedantic -g -O2
 CPPFLAGS	?= -Iincludes -Iincludes/libft -lreadline
 SRC_DIR		:= src
 OBJ_DIR		:= obj
-OBJ		= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
+OBJ		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 LIBFT_DIR	:= includes/libft
 LIBFT		:= $(LIBFT_DIR)/libft.a
 TARGET_DIR	:= target
 RM		?= rm
+BUILTIN_SRC_DIR	:= $(SRC_DIR)/builtin
 
 SRC	:= \
-	minishell.c \
-	init.c \
-	parsing.c \
-	debug.c \
-	cleanup.c \
-	executing.c
+	$(SRC_DIR)/minishell.c \
+	$(SRC_DIR)/init.c \
+	$(SRC_DIR)/parsing.c \
+	$(SRC_DIR)/debug.c \
+	$(SRC_DIR)/cleanup.c \
+	$(SRC_DIR)/executing.c \
+	$(BUILTIN_SRC_DIR)/cd.c
 
 all:	$(NAME)
 
@@ -55,11 +57,13 @@ $(LIBFT):
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)/builtin
 
 $(TARGET_DIR):
 	mkdir -p $(TARGET_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 .PHONY: all clean fclean re

@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/15 02:46:23 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/31 18:56:17 by asoria           ###   ########.fr       */
+/*   Created: 2025/12/31 18:49:10 by asoria            #+#    #+#             */
+/*   Updated: 2025/12/31 19:57:05 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell(t_shell *shell)
+char	*ms_cd(t_shell *shell)
 {
-	//read_input(shell);
-	//print_envp(shell);
-	ms_cd(shell);
+	char	old_wd[PATH_MAX];
+	char	new_wd[PATH_MAX];
+
+	(void)shell;
+	if (!getcwd(old_wd, PATH_MAX))
+	{
+		perror("cwd");
+		return (NULL);
+	}
+	printf("old_wd: %s\n", old_wd);
+	ft_strlcpy(new_wd, old_wd, PATH_MAX);
+	printf("new_wd: %s\n", new_wd);
+	return (NULL);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_shell	shell;
-
-	(void)argc;
-	if (init_shell(argv, envp, &shell))
-		return (1);
-	minishell(&shell);
-	black_hole(&shell);
-	return (0);
-}
