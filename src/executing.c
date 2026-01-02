@@ -6,34 +6,25 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/02 04:32:23 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/02 21:41:48 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_tokens(char **tokens)
-{
-	int	i;
-
-	i = 0;
-	while (tokens[i])
-	{
-		free(tokens[i]);
-		i++;
-	}
-	free(tokens);
-}
-
 static char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*path;
+	char	*temp;
 	int		i;
-	char	*part_path;
 
+	if (!cmd || !*cmd)
+		return (NULL);
+	if (access(cmd, X_OK) == 0)
+		return (ft_strdup(cmd));
 	i = 0;
-	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == 0)
+	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
 	if (!envp[i])
 		return (NULL);
@@ -41,48 +32,134 @@ static char	*find_path(char *cmd, char **envp)
 	i = 0;
 	while (paths[i])
 	{
-		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, cmd);
-		free(part_path);
-		if (access(path, F_OK) == 0)
-			return (free_tokens(paths), path);
+		temp = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(temp, cmd);
+		free(temp);
+		if (access(path, X_OK) == 0)
+			return (free_split(paths), path);
 		free(path);
 		i++;
 	}
-	free_tokens(paths);
-	return (NULL);
+	return (free_split(paths), NULL);
 }
 
-/* 
- * WIP. after tokenize_input, this ft STILL uses whole input instead of
- * just shell->token[x][y].
- * This will have to change to execute_single_command or similar.
-*/
-void	execute(char *input, char **envp)
+static void	execute_command(t_cmd *cmd, char **envp)
 {
 	char	*path;
-	char	**tokens;
 
-	if (!input || !*input)
+	if (!cmd || !cmd->args || !cmd->args[0])
 		exit(127);
-	tokens = ft_split(input, ' ');
-	if (!tokens || !tokens[0] || !tokens[0][0])
-	{
-		if (tokens)
-			free_tokens(tokens);
-		exit(127);
-	}
-	path = find_path(tokens[0], envp);
+	path = find_path(cmd->args[0], envp);
 	if (!path)
 	{
-		free_tokens(tokens);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->args[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		exit(127);
 	}
-	if (execve(path, tokens, envp) == -1)
+	if (execve(path, cmd->args, envp) == -1)
 	{
 		free(path);
-		free_tokens(tokens);
-		printf("minishell: %s: command not found", tokens[0]);
+		perror("execve");
 		exit(126);
 	}
+}
+
+static void	setup_pipe_fds(t_cmd *cmd, int prev_fd, int pipe_fd[2])
+{
+	if (prev_fd != -1)
+	{
+		dup2(prev_fd, STDIN_FILENO);
+		close(prev_fd);
+	}
+	if (cmd->operator && ft_strncmp(cmd->operator, "|", 1) == 0)
+	{
+		close(pipe_fd[0]);
+		dup2(pipe_fd[1], STDOUT_FILENO);
+		close(pipe_fd[1]);
+	}
+}
+
+static int	count_commands(t_cmd *cmd_list)
+{
+	int		count;
+	t_cmd	*current;
+
+	count = 0;
+	current = cmd_list;
+	while (current)
+	{
+		count++;
+		current = current->next;
+	}
+	return (count);
+}
+
+void	execute_pipeline(t_shell *shell)
+{
+	t_cmd	*cmd;
+	int		pipe_fd[2];
+	int		prev_fd;
+	pid_t	*pids;
+	int		i;
+	int		cmd_count;
+
+	if (!shell->cmd_list)
+		return ;
+	cmd_count = count_commands(shell->cmd_list);
+	pids = malloc(sizeof(pid_t) * cmd_count);
+	if (!pids)
+		return ;
+	cmd = shell->cmd_list;
+	prev_fd = -1;
+	i = 0;
+	while (cmd)
+	{
+		if (cmd->operator && ft_strncmp(cmd->operator, "|", 1) == 0)
+		{
+			if (pipe(pipe_fd) == -1)
+			{
+				perror("pipe");
+				free(pids);
+				return ;
+			}
+		}
+		pids[i] = fork();
+		if (pids[i] == -1)
+		{
+			perror("fork");
+			if (prev_fd != -1)
+				close(prev_fd);
+			if (cmd->operator && ft_strncmp(cmd->operator, "|", 1) == 0)
+			{
+				close(pipe_fd[0]);
+				close(pipe_fd[1]);
+			}
+			free(pids);
+			return ;
+		}
+		if (pids[i] == 0)
+		{
+			setup_pipe_fds(cmd, prev_fd, pipe_fd);
+			execute_command(cmd, shell->envp);
+		}
+		if (prev_fd != -1)
+			close(prev_fd);
+		if (cmd->operator && ft_strncmp(cmd->operator, "|", 1) == 0)
+		{
+			close(pipe_fd[1]);
+			prev_fd = pipe_fd[0];
+		}
+		else
+			prev_fd = -1;
+		cmd = cmd->next;
+		i++;
+	}
+	i = 0;
+	while (i < cmd_count)
+	{
+		waitpid(pids[i], NULL, 0);
+		i++;
+	}
+	free(pids);
 }

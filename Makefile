@@ -6,13 +6,13 @@
 #    By: asoria <asoria@stedent.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/15 00:26:06 by asoria            #+#    #+#              #
-#    Updated: 2026/01/01 19:45:05 by asoria           ###   ########.fr        #
+#    Updated: 2026/01/02 21:33:36 by asoria           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:= minishell
 CC		?= cc
-CFLAGS		?= -Wall -Wextra -Werror -Wpedantic -g -O2
+CFLAGS		?= -Wall -Wextra -Werror -Wpedantic -g
 CPPFLAGS	?= -Iincludes -Iincludes/libft -lreadline
 SRC_DIR		:= src
 OBJ_DIR		:= obj
@@ -31,6 +31,7 @@ SRC	:= \
 	$(SRC_DIR)/cleanup.c \
 	$(SRC_DIR)/executing.c \
 	$(SRC_DIR)/tokens.c \
+	$(SRC_DIR)/clusters.c \
 	$(BUILTIN_SRC_DIR)/cd.c
 
 all:	$(NAME)

@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 01:51:27 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/29 22:43:51 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/02 21:47:11 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	init_shell(char **argv, char **envp, t_shell *shell)
 {
 	(void)argv;
 	ft_bzero(shell, sizeof(t_shell));
+	shell->cmd_list = NULL;
 	get_envp(envp, shell);
 	init_config_file(shell);
 	init_rl_history(shell);

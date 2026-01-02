@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:43:20 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/02 04:09:24 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/02 21:20:28 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ static char	*skip_whitespace(char *input)
 
 static char	*get_token(t_shell *shell, int i)
 {
-	int	j;
-	int	k;
+	int		j;
+	int		k;
 	char	*start;
 
 	start = shell->input;
 	j = 0;
 	while (*shell->input != ' ' && *shell->input != '\t'
 		&& *shell->input != '\0')
-	{	
+	{
 		shell->input++;
 		j++;
 	}
@@ -48,7 +48,7 @@ static char	*get_token(t_shell *shell, int i)
 
 void	tokenize_input(t_shell *shell)
 {
-	int	i;
+	int		i;
 	char	*start;
 
 	start = shell->input;
@@ -62,5 +62,6 @@ void	tokenize_input(t_shell *shell)
 		get_token(shell, i);
 		i++;
 	}
+	shell->token[i] = NULL;
 	shell->input = start;
 }

@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/02 04:07:16 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/02 21:42:26 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,23 @@
 # include "libft/libft.h"
 
 #define MAX_TOKENS 1000
+#define MAX_BUFFER 4096
+
+typedef struct s_cmd
+{
+	char		**args;
+	int		arg_count;
+	char		*operator;
+	struct s_cmd	*next;
+} 			t_cmd;
 
 typedef struct s_shell
 {
 	char	**envp;
-	char	**path;
 	char	*prompt;
 	char	*input;
 	char	**token;
+	t_cmd	*cmd_list;
 	char	*config_file;
 	char	*history_file;
 }		t_shell;
@@ -45,18 +54,29 @@ int		init_shell(char **argv, char **envp, t_shell *shell);
 void	read_input(t_shell *shell);
 
 /* debug.c */
+void	print_cmd_list(t_cmd *cmd_list);
 void	print_envp(t_shell *shell);
 
 /* cleanup.c */
+void	free_split(char **tokens);
+void	free_cmd_list(t_cmd *cmd_list);
 void	black_hole(t_shell *shell);
 
 /* executing.c  */
-void	execute(char *argv, char **envp);
+void	execute_pipeline(t_shell *shell);
 
 /* tokens.c */
 void	tokenize_input(t_shell *shell);
 
+/* clusters.c */
+int	is_operator(char *str);
+void	clusterize_tokens(t_shell *shell);
+
+
 /* cd.c */
 char	*ms_cd(t_shell *shell);
+
+/* test.c */
+void	test_print(void);
 
 #endif

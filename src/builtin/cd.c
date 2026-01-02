@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 18:49:10 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/31 19:57:05 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/02 21:22:58 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,3 @@ char	*ms_cd(t_shell *shell)
 	printf("new_wd: %s\n", new_wd);
 	return (NULL);
 }
-
