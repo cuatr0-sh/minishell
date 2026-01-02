@@ -6,26 +6,26 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/31 19:58:00 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/02 04:32:23 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_split(char **split)
+static void	free_tokens(char **tokens)
 {
 	int	i;
 
 	i = 0;
-	while (split[i])
+	while (tokens[i])
 	{
-		free(split[i]);
+		free(tokens[i]);
 		i++;
 	}
-	free(split);
+	free(tokens);
 }
 
-char	*find_path(char *tokens, char **envp)
+static char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*path;
@@ -42,17 +42,22 @@ char	*find_path(char *tokens, char **envp)
 	while (paths[i])
 	{
 		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, tokens);
+		path = ft_strjoin(part_path, cmd);
 		free(part_path);
 		if (access(path, F_OK) == 0)
-			return (free_split(paths), path);
+			return (free_tokens(paths), path);
 		free(path);
 		i++;
 	}
-	free_split(paths);
+	free_tokens(paths);
 	return (NULL);
 }
 
+/* 
+ * WIP. after tokenize_input, this ft STILL uses whole input instead of
+ * just shell->token[x][y].
+ * This will have to change to execute_single_command or similar.
+*/
 void	execute(char *input, char **envp)
 {
 	char	*path;
@@ -64,19 +69,19 @@ void	execute(char *input, char **envp)
 	if (!tokens || !tokens[0] || !tokens[0][0])
 	{
 		if (tokens)
-			free_split(tokens);
+			free_tokens(tokens);
 		exit(127);
 	}
 	path = find_path(tokens[0], envp);
 	if (!path)
 	{
-		free_split(tokens);
+		free_tokens(tokens);
 		exit(127);
 	}
 	if (execve(path, tokens, envp) == -1)
 	{
 		free(path);
-		free_split(tokens);
+		free_tokens(tokens);
 		printf("minishell: %s: command not found", tokens[0]);
 		exit(126);
 	}

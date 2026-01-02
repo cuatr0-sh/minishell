@@ -6,15 +6,14 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 13:06:27 by asoria            #+#    #+#             */
-/*   Updated: 2025/12/31 20:11:11 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/02 04:10:37 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	process_input(char *input, t_shell *shell)
+static void	fork_program(t_shell *shell)
 {
-/*
 	pid_t	pid;
 	int		status;
 
@@ -24,16 +23,18 @@ static void	process_input(char *input, t_shell *shell)
 		perror("fork");
 		return ;
 	}
-	if (pid == 0)
-	{
-		execute(input, shell->envp);
+	if (pid == 0) {
+		execute(shell->input, shell->envp);
 		exit(1);
 	}
 	else
-	{
 		waitpid(pid, &status, 0);
-	}
-	*/
+}
+
+static void	process_input(t_shell *shell)
+{
+	tokenize_input(shell);
+	fork_program(shell);
 }
 
 /* WIP: Will extract custom PS1 from ".msrc" config file */
@@ -55,7 +56,7 @@ void	read_input(t_shell *shell)
 			break ;
 		if (*shell->input)
 			add_history(shell->input);
-		process_input(shell->input, shell);
-		free(shell->input);
+		process_input(shell);
+		//free(shell->input);
 	}
 }
