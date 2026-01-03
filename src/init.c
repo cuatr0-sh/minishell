@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 01:51:27 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/02 21:47:11 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/03 17:59:47 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ int	init_shell(char **argv, char **envp, t_shell *shell)
 	get_envp(envp, shell);
 	init_config_file(shell);
 	init_rl_history(shell);
+	shell->prompt = get_prompt(shell);
 	return (0);
 }

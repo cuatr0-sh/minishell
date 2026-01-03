@@ -6,27 +6,36 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:46:23 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/02 02:39:04 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/03 19:37:45 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell(t_shell *shell)
+void	minishell(t_shell *shell, char **argv, char **envp)
 {
-	read_input(shell);
-	//print_envp(shell);
-	//ms_cd(shell);
+	init_shell(argv, envp, shell);
+	while (1)
+	{
+		read_input(shell);
+		if (!shell->input)
+			break;
+		if (*shell->input)
+		{
+			tokenize_input(shell);
+			clusterize_tokens(shell);
+			//print_cmd_list(shell->cmd_list);
+			execute_pipeline(shell);
+			black_hole(shell);
+		}
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell	shell;
+	t_shell shell;
 
 	(void)argc;
-	if (init_shell(argv, envp, &shell))
-		return (1);
-	minishell(&shell);
-	black_hole(&shell);
+	minishell(&shell, argv, envp);
 	return (0);
 }

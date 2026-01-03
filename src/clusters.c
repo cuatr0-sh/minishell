@@ -6,34 +6,11 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 14:46:48 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/02 21:47:19 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/03 19:35:35 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	is_operator(char *token)
-{
-	if (!token)
-		return (0);
-	if (ft_strncmp(token, "&&", MAX_BUFFER) == 0)
-		return (1);
-	if (ft_strncmp(token, "||", MAX_BUFFER) == 0)
-		return (1);
-	if (ft_strncmp(token, "|", MAX_BUFFER) == 0)
-		return (1);
-	if (ft_strncmp(token, ";", MAX_BUFFER) == 0)
-		return (1);
-	if (ft_strncmp(token, ">", MAX_BUFFER) == 0)
-		return (1);
-	if (ft_strncmp(token, "<", MAX_BUFFER) == 0)
-		return (1);
-	if (ft_strncmp(token, ">>", MAX_BUFFER) == 0)
-		return (1);
-	if (ft_strncmp(token, "<<", MAX_BUFFER) == 0)
-		return (1);
-	return (0);
-}
 
 static t_cmd	*create_command(char **tokens, int start, int end, char *op)
 {
@@ -53,7 +30,7 @@ static t_cmd	*create_command(char **tokens, int start, int end, char *op)
 	i = 0;
 	while (i < cmd->arg_count)
 	{
-		cmd->args[i] = tokens[start + i];
+		cmd->args[i] = ft_strdup(tokens[start + i]); //tokens[start + i];
 		i++;
 	}
 	cmd->args[i] = NULL;

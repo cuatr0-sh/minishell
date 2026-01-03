@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/02 21:42:26 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/03 18:26:56 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_shell
 int		init_shell(char **argv, char **envp, t_shell *shell);
 
 /* parsing.c */
+char	*get_prompt(t_shell *shell);
 void	read_input(t_shell *shell);
 
 /* debug.c */
@@ -64,6 +65,7 @@ void	black_hole(t_shell *shell);
 
 /* executing.c  */
 void	execute_pipeline(t_shell *shell);
+void	process_input(t_shell *shell);
 
 /* tokens.c */
 void	tokenize_input(t_shell *shell);
