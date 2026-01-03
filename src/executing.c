@@ -6,42 +6,11 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/03 19:19:46 by asoria           ###   ########.fr       */
+/*   Updated: 2026/01/03 23:12:23 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*find_path(char *cmd, char **envp)
-{
-	char	**paths;
-	char	*path;
-	char	*temp;
-	int		i;
-
-	if (!cmd || !*cmd)
-		return (NULL);
-	if (access(cmd, X_OK) == 0)
-		return (ft_strdup(cmd));
-	i = 0;
-	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
-		i++;
-	if (!envp[i])
-		return (NULL);
-	paths = ft_split(envp[i] + 5, ':');
-	i = 0;
-	while (paths[i])
-	{
-		temp = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(temp, cmd);
-		free(temp);
-		if (access(path, X_OK) == 0)
-			return (free_split(paths), path);
-		free(path);
-		i++;
-	}
-	return (free_split(paths), NULL);
-}
 
 static void	execute_command(t_cmd *cmd, char **envp)
 {
