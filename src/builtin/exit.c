@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-void	ms_exit(t_shell	*shell)
+void	ms_exit(int status, t_shell	*shell)
 {
 	shell->is_alive = false;
+	shell->exit_code = status;
 }

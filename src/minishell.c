@@ -42,5 +42,5 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	minishell(&shell, argv, envp);
-	return (0);
+	return (shell.exit_code);
 }

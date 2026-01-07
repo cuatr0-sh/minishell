@@ -59,6 +59,7 @@ typedef struct s_cmd
 typedef struct s_shell
 {
 	bool	is_alive;
+	int		exit_code;
 	char	**envp;
 	char	*prompt;
 	char	*input;
@@ -98,9 +99,9 @@ void	black_hole(t_shell *shell);
 
 /* executing.c  */
 int		is_builtin(t_cmd *cmd, char **envp);
-int		execute_builtin(t_cmd *cmd, char **envp);
+int		execute_builtin(t_shell *shell, t_cmd *cmd, char **envp);
 void	execute_external(t_cmd *cmd, char **envp);
-void	execute_command(t_cmd *cmd, char **envp);
+void	execute_command(t_cmd *cmd, char **envp, t_shell *shell);
 int		count_commands(t_cmd *cmd_list);
 
 /* tokens.c */
@@ -113,13 +114,13 @@ void	clusterize_tokens(t_shell *shell);
 /* builtin.c */
 int		is_builtin(t_cmd *cmd, char **envp);
 
-/* cd.c */
+/* BUILTINS */
 char	*ms_cd(t_shell *shell);
-
-/* pwd.c */
 void	ms_pwd(void);
+void	ms_exit(int status, t_shell	*shell);
 
 /* pipes */
+void	check_if_pipe(char *op, int *prev_fd, int (*pipe_fd)[2]);
 void	execute_pipeline(t_shell *shell);
 void	setup_pipe_fds(t_cmd *cmd, int prev_fd, int pipe_fd[2]);
 
