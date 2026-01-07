@@ -14,5 +14,5 @@
 
 void	ms_exit(t_shell	*shell)
 {
-	shell->is_alive = 0;
+	shell->is_alive = false;
 }

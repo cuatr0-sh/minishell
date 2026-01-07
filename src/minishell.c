@@ -15,6 +15,7 @@
 void	minishell(t_shell *shell, char **argv, char **envp)
 {
 	init_shell(argv, envp, shell);
+	shell->is_alive = true;
 	while (1)
 	{
 		read_input(shell);
