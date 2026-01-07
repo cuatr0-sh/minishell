@@ -18,7 +18,7 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 	while (1)
 	{
 		read_input(shell);
-		if (!shell->input)
+		if (!shell->input || !shell->is_alive)
 		{
 			black_hole(shell);
 			free_envp(&shell->envp);
@@ -31,8 +31,6 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 			execute_pipeline(shell);
 			black_hole(shell);
 		}
-		if (!shell->is_alive)
-			break ;
 	}
 	free_envp(&shell->envp);
 }
