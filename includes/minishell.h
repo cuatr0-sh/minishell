@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <stdbool.h>
 # include <stdlib.h>
 # include <string.h>
 # include <errno.h>
@@ -57,6 +58,7 @@ typedef struct s_cmd
 
 typedef struct s_shell
 {
+	bool	is_alive;
 	char	**envp;
 	char	*prompt;
 	char	*input;
@@ -70,6 +72,7 @@ typedef struct s_redirect
 {
 	int		prev_fd;
 	int		heredoc;
+	int		ext_files[2];
 	int		fd[2];
 	pid_t	*child;
 }	t_redirect;

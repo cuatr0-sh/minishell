@@ -31,6 +31,8 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 			execute_pipeline(shell);
 			black_hole(shell);
 		}
+		if (!shell->is_alive)
+			break ;
 	}
 	free_envp(&shell->envp);
 }
