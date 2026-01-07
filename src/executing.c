@@ -58,17 +58,23 @@ void	execute_command(t_cmd *cmd, char **envp)
 		execute_external(cmd, envp);
 }
 
-int	count_commands(t_cmd *cmd_list)
+void	execute_pipeline(t_shell *shell)
 {
-	int		count;
-	t_cmd	*current;
+	int				prev_fd;
+	int				pipe_fd[2];
+	t_token_type	*redirections;
+	t_cmd			*cmd;
 
-	count = 0;
-	current = cmd_list;
-	while (current)
+	if (!shell->cmd_list)
+		return ;
+	prev_fd = -1;
+	cmd = shell->cmd_list;
+	redirections = select_redirections(shell->token);
+	if (!redirections)
 	{
-		count++;
-		current = current->next;
+		execute_command(cmd, shell->envp);
+		return ;
 	}
-	return (count);
+	execute_redirections(shell, redirections);
+	free(redirections);
 }

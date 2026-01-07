@@ -45,7 +45,6 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
-	size_t			size;
 }	t_token;
 
 typedef struct s_cmd
