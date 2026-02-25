@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 23:07:21 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/20 00:49:06 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/25 01:54:53 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	sigint_interactive(int sig)
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_redisplay();
 }
 
 static void	sigint_running(int sig)

@@ -6,63 +6,73 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:43:20 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/24 17:04:32 by asoria           ###   ########.fr       */
+/*   Updated: 2026/02/25 01:49:55 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*skip_whitespace(char *input)
+#include "minishell.h"
+
+static t_token_type	get_type(char *s, int len)
 {
-	while (*input == ' ' || *input == '\t')
-		input++;
-	return (input);
+	if (len == 1 && s[0] == '|')
+		return (T_PIPE);
+	if (len == 1 && s[0] == '<')
+		return (T_INFILE);
+	if (len == 1 && s[0] == '>')
+		return (T_OUTFILE);
+	if (len == 2 && s[0] == '<' && s[1] == '<')
+		return (T_HEREDOC);
+	if (len == 2 && s[0] == '>' && s[1] == '>')
+		return (T_APPEND);
+	return (T_WORD);
 }
 
-static char	*get_token(t_shell *shell)
+static int	add_token(t_shell *shell, char *s, int len)
 {
-	char	*tmp;
+	t_token_type	type;
+	char			*value;
+	t_token			*tok;
+
+	type = get_type(s, len);
+	if (type == T_WORD)
+		value = strip_quotes(s, len);
+	else
+		value = ft_substr(s, 0, len);
+	if (!value)
+		return (0);
+	tok = new_token(value);
+	if (!tok)
+		return (free(value), 0);
+	tok->type = type;
+	add_token_to_list(&shell->first, tok);
+	return (1);
+}
+
+int	tokenize_input(t_shell *shell)
+{
+	char	*s;
 	int		len;
 
-	len = raw_token_len(shell->input);
-	tmp = strip_quotes(shell->input, len);
-	shell->input += len;
-	return (tmp);
-}
-
-void	tokenize_input(t_shell *shell)
-{
-	char	*start;
-	t_token	*new;
-
-	start = shell->input;
-	while (*shell->input != '\0')
+	s = shell->input;
+	while (*s)
 	{
-		shell->input = skip_whitespace(shell->input);
-		if (*shell->input == '\0')
+		while (*s == ' ' || *s == '\t')
+			s++;
+		if (!*s)
 			break ;
-		new = new_token(get_token(shell));
-		classify_token(new);
-		add_token_to_list(&shell->first, new);
-		new = NULL;
+		len = raw_token_len(s);
+		if (len < 0)
+		{
+			ft_putstr_fd("minishell: syntax error: unclosed quote\n", 2);
+			return (0);
+		}
+		if (len == 0)
+			break ;
+		if (!add_token(shell, s, len))
+			return (0);
+		s += len;
 	}
-	shell->input = start;
-}
-
-int	classify_token(t_token *token)
-{
-	if (!token)
-		return (0);
-	if (ft_strncmp(token->value, "|", 1) == 0)
-		return (token->type = T_PIPE, 1);
-	if (ft_strncmp(token->value, "<<", 2) == 0)
-		return (token->type = T_HEREDOC, 1);
-	if (ft_strncmp(token->value, ">>", 2) == 0)
-		return (token->type = T_APPEND, 1);
-	if (ft_strncmp(token->value, ">", 1) == 0)
-		return (token->type = T_OUTFILE, 1);
-	if (ft_strncmp(token->value, "<", 1) == 0)
-		return (token->type = T_INFILE, 1);
-	token->type = T_WORD;
-	return (0);
+	return (1);
 }
