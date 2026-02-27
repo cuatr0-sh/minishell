@@ -15,6 +15,7 @@
 size_t	dollar_len(t_shell *sh, const char *s, size_t *skip)
 {
 	char	*val;
+	char	*name;
 	size_t	len;
 	int		special;
 
@@ -27,7 +28,9 @@ size_t	dollar_len(t_shell *sh, const char *s, size_t *skip)
 	else
 	{
 		*skip = var_len(s + 1) + 1;
-		val = ms_getenv(sh->envp, s + 1);
+		name = ft_substr(s + 1, 0, var_len(s + 1));
+		val = ms_getenv(sh->envp, name);
+		free(name);
 	}
 	len = 0;
 	if (val)
