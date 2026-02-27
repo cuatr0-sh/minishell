@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-/* WIP: Will extract custom PS1 from ".msrc" config file */
 char	*get_prompt(t_shell *shell)
 {
 	(void)shell;
@@ -68,12 +67,13 @@ static void	continue_input(t_shell *shell)
 void	read_input(t_shell *shell)
 {
 	shell->input = readline(shell->prompt);
-	if (!shell->input && g_signal != SIGINT)
+	if (!shell->input)
 	{
+		g_signal = 0;
 		shell->is_alive = 0;
 		return ;
 	}
-	if (!shell->input || !*shell->input)
+	if (!*shell->input)
 	{
 		free(shell->input);
 		shell->input = NULL;
