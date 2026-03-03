@@ -45,13 +45,13 @@ make re        # Recompiles everything from scratch
 Start the shell with:
 
 ```bash
-./minishell
+./target/minishell
 ```
 
 You should see a prompt similar to:
 
 ```bash
-minishell$
+Student@42 $
 ```
 
 The shell is now ready to receive commands.
