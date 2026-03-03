@@ -23,7 +23,7 @@ void	minishell(t_shell *shell, char **argv, char **envp)
 		black_hole(shell);
 	}
 	black_hole(shell);
-	clear_history();
+	rl_clear_history();
 	free_envp(&shell->envp);
 }
 
