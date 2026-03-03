@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/25 01:47:58 by asoria           ###   ########.fr       */
+/*   Updated: 2026/03/03 20:37:36 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,12 @@ int			run_echo(t_cmd *cmd);
 int			ms_echo(char **args);
 
 /* export.c */
-int			ms_export(char *arg, char ***envp);
+int			ms_export(t_token *args, char ***envp);
+
+/* export_utils.c */
+int			env_size(char **envp);
+int			find_var(char **envp, const char *arg);
+int			is_valid_export_arg(const char *arg);
 
 /* unset.c */
 int			ms_unset(char ***envp, const char *var_name);

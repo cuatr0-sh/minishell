@@ -28,7 +28,7 @@ SRC_EXECUTION   := execute_pipes.c executor.c pipes.c executor_utils.c \
 			redirections.c heredocs.c
 
 SRC_BUILTIN     := builtins.c redir_builtins.c cd.c echo.c env.c exit.c \
-			export.c pwd.c unset.c
+			export.c pwd.c unset.c export_utils.c
 
 SRC_UTILS       := cleanup.c cleanup2.c utils.c utils2.c #debug.c
 

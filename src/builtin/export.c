@@ -6,44 +6,13 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 00:48:30 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/24 18:17:28 by asoria           ###   ########.fr       */
+/*   Updated: 2026/03/03 20:34:43 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	env_size(char **envp)
-{
-	int	i;
-
-	i = 0;
-	while (envp[i])
-		i++;
-	return (i);
-}
-
-static int	find_var(char **envp, char *arg)
-{
-	int		i;
-	char	*equal;
-	size_t	name_len;
-
-	equal = ft_strchr(arg, '=');
-	if (!equal)
-		return (-1);
-	name_len = equal - arg;
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], arg, name_len) == 0
-			&& envp[i][name_len] == '=')
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-void	print_export(char **envp)
+static void	print_export(char **envp)
 {
 	char	*equal;
 	int		i;
@@ -61,24 +30,28 @@ void	print_export(char **envp)
 	}
 }
 
-int	ms_export(char *arg, char ***envp)
+static int	update_var(char *arg, int index, char ***envp)
 {
-	int		index;
+	char	*new_val;
+
+	new_val = ft_strdup(arg);
+	if (!new_val)
+		return (1);
+	free((*envp)[index]);
+	(*envp)[index] = new_val;
+	return (0);
+}
+
+static int	add_var(char *arg, char ***envp)
+{
 	int		size;
 	char	**new_env;
-	char	**old_env;
 	int		i;
 
-	if (!arg)
-		return (print_export(*envp), 0);
 	size = env_size(*envp);
 	new_env = malloc(sizeof(char *) * (size + 2));
 	if (!new_env)
 		return (1);
-	index = find_var(*envp, arg);
-	if (index != -1)
-		return (free((*envp)[index]),
-		(void)((*envp)[index] = ft_strdup(arg)), free(new_env), 0);
 	i = 0;
 	while (i < size)
 	{
@@ -86,8 +59,51 @@ int	ms_export(char *arg, char ***envp)
 		i++;
 	}
 	new_env[i] = ft_strdup(arg);
+	if (!new_env[i])
+	{
+		free(new_env);
+		return (1);
+	}
 	new_env[i + 1] = NULL;
-	old_env = *envp;
+	free(*envp);
 	*envp = new_env;
-	return (free(old_env), 0);
+	return (0);
+}
+
+static int	export_one(char *arg, char ***envp)
+{
+	int	index;
+
+	index = find_var(*envp, arg);
+	if (index != -1)
+		return (update_var(arg, index, envp));
+	return (add_var(arg, envp));
+}
+
+int	ms_export(t_token *args, char ***envp)
+{
+	int		ret;
+	int		valid;
+
+	if (!args)
+		return (print_export(*envp), 0);
+	ret = 0;
+	while (args)
+	{
+		valid = is_valid_export_arg(args->value);
+		if (valid == -1)
+		{
+			ft_putstr_fd("minishell: export: `", 2);
+			ft_putstr_fd(args->value, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			ret = 1;
+		}
+		else if (valid == 1)
+		{
+			if (export_one(args->value, envp))
+				ret = 1;
+		}
+		args = args->next;
+	}
+	return (ret);
 }
