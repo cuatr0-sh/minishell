@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 02:30:42 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/25 01:38:25 by jaicastr         ###   ########.fr       */
+/*   Updated: 2026/03/04 00:42:22 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	all_spaces(char *input)
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] != ' ')
+		if (input[i] != ' ' && input[i] != '\t')
 			return (0);
 		i++;
 	}
