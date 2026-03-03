@@ -84,3 +84,17 @@ int	count_tokens(t_token *tokens)
 	}
 	return (i);
 }
+
+int	all_spaces(char *input)
+{
+	size_t	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
+}

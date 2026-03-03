@@ -206,6 +206,7 @@ void		ms_exit(t_shell *shell, t_token *arg);
 int			is_environment_modifier(t_cmd *cmd);
 void		slash_path(t_shell *shell);
 int			count_tokens(t_token *tokens);
+int			all_spaces(char *input);
 
 /* utils2.c */
 char		*ms_getenv(char **envp, const char *name);

@@ -14,12 +14,13 @@
 
 int	init_ast(t_shell *shell)
 {
-	char	*try;
-
+	if (all_spaces(shell->input))
+		return (0);
 	shell->ast = create_tree(shell->first, NULL);
 	if (!shell->ast)
 	{
 		ft_putstr_fd("minishell: syntax error\n", 2);
+		shell->program_exit = 2;
 		return (0);
 	}
 	return (1);

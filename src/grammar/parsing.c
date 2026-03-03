@@ -27,8 +27,6 @@ void	process_input(t_shell *shell)
 		return ;
 	if (init_ast(shell))
 		execute_pipeline(shell);
-	else
-		shell->program_exit = 2;
 }
 
 static char	*append_line(char *base, char *line)
