@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/03/03 20:37:36 by asoria           ###   ########.fr       */
+/*   Updated: 2026/03/03 23:37:22 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ int			find_var(char **envp, const char *arg);
 int			is_valid_export_arg(const char *arg);
 
 /* unset.c */
-int			ms_unset(char ***envp, const char *var_name);
+int			ms_unset(char ***envp, t_token *args);
 
 /* exit.c */
 void		ms_exit(t_shell *shell, t_token *arg);

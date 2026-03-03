@@ -6,7 +6,7 @@
 /*   By: edblazqu <edblazqu@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 23:28:58 by edblazqu          #+#    #+#             */
-/*   Updated: 2026/03/03 20:35:55 by asoria           ###   ########.fr       */
+/*   Updated: 2026/03/03 23:37:55 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	execute_builtin(t_shell *shell, t_cmd *cmd, char ***envp)
 	else if (ft_strcmp(cmd->args->value, "export") == 0)
 		exit_code = ms_export(cmd->args->next, envp);
 	else if (ft_strcmp(cmd->args->value, "unset") == 0)
-		exit_code = ms_unset(envp, next_value(cmd->args));
+		exit_code = ms_unset(envp, cmd->args->next);
 	else if (ft_strcmp(cmd->args->value, "exit") == 0)
 		ms_exit(shell, cmd->args->next);
 	shell->program_exit = exit_code;
