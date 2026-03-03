@@ -110,7 +110,7 @@ void		child_pipe_black_hole(t_shell *shell);
 /* cleanup2.c */
 void		free_path(char **path);
 void		free_ast(t_tree *node);
-void		child_black_hole(t_shell *shell);
+void		child_black_hole(t_shell *shell, char *path);
 
 /* parser_utils.c */
 int			is_redir(const t_token *token);

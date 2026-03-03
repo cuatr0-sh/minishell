@@ -43,7 +43,6 @@ void	execute_external(t_cmd *cmd, t_shell *shell)
 
 	if (!cmd || !shell)
 		return ;
-	cmd->execute = tokens_to_args(cmd->args);
 	setup_signals_running();
 	son = fork();
 	if (son == 0)
@@ -51,18 +50,17 @@ void	execute_external(t_cmd *cmd, t_shell *shell)
 		setup_signals_child();
 		if (!cmd || !check_redirs(cmd) || !cmd->execute)
 			exit(127);
-		if (dup2_manager(cmd->redir) == 0)
+		if (!dup2_manager(cmd->redir))
 			exit (126);
 		path = search_cmd(cmd->execute[0], shell);
 		if (!path)
 		{
 			perror("minishell");
-			child_black_hole(shell);
+			child_black_hole(shell, NULL);
 			exit(127);
 		}
 		execve(path, cmd->execute, shell->envp);
-		free(path);
-		child_black_hole(shell);
+		child_black_hole(shell, path);
 		exit(127);
 	}
 }
@@ -82,6 +80,7 @@ void	execute_command(t_shell *shell, t_cmd *cmd)
 		std_builtin(cmd, std_fd);
 		return ;
 	}
+	cmd->execute = tokens_to_args(cmd->args);
 	execute_external(cmd, shell);
 }
 

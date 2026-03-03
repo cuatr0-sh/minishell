@@ -91,7 +91,7 @@ void	black_hole(t_shell *shell)
 	g_signal = 0;
 }
 
-void	child_black_hole(t_shell *shell)
+void	child_black_hole(t_shell *shell, char *path)
 {
 	if (shell->input)
 	{
@@ -108,6 +108,8 @@ void	child_black_hole(t_shell *shell)
 		free_ast(shell->ast);
 		shell->ast = NULL;
 	}
+	if (path)
+		free(path);
 	free_tokens(&(shell->first));
 	free_envp(&shell->envp);
 	write_history(shell->history_file);

@@ -24,10 +24,7 @@ static char	*ft_strjoin_free(char *s1, char *s2)
 	j = 0;
 	join = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!join)
-	{
-		free(s1);
-		return (NULL);
-	}
+		return (free(s1), NULL);
 	while (s1[i])
 	{
 		join[i] = s1[i];

@@ -14,6 +14,8 @@
 
 int	init_ast(t_shell *shell)
 {
+	char	*try;
+
 	shell->ast = create_tree(shell->first, NULL);
 	if (!shell->ast)
 	{
