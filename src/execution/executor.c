@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/03/04 00:05:33 by asoria           ###   ########.fr       */
+/*   Updated: 2026/03/04 00:48:19 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	execute_command(t_shell *shell, t_cmd *cmd)
 		if (!redir_builtin(cmd, std_fd) || !dup2_manager(cmd->redir))
 		{
 			perror("minishell");
+			shell->program_exit = 1;
 			return ;
 		}
 		execute_builtin(shell, cmd, &shell->envp);

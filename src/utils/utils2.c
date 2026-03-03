@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 04:41:16 by asoria            #+#    #+#             */
-/*   Updated: 2026/01/20 04:42:42 by asoria           ###   ########.fr       */
+/*   Updated: 2026/03/04 00:52:24 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,13 @@ t_token	*last_token(t_token	*start)
 	while (end->next != NULL)
 		end = end->next;
 	return (end);
+}
+
+void	newl_and_sigint(void)
+{
+	if (g_signal == SIGINT)
+	{
+		write(1, "\n", 1);
+		g_signal = 0;
+	}
 }

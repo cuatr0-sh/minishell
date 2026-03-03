@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/03/04 00:22:59 by asoria           ###   ########.fr       */
+/*   Updated: 2026/03/04 00:51:38 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,7 @@ int			all_spaces(char *str);
 /* utils2.c */
 char		*ms_getenv(char **envp, const char *name);
 t_token		*last_token(t_token *start);
+void		newl_and_sigint(void);
 
 /* signals.c */
 extern int	g_signal;

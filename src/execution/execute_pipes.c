@@ -6,7 +6,7 @@
 /*   By: edblazqu <edblazqu@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 11:39:16 by edblazqu          #+#    #+#             */
-/*   Updated: 2026/03/04 00:06:18 by asoria           ###   ########.fr       */
+/*   Updated: 2026/03/04 00:52:00 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,6 @@ int	execute_pipe(t_shell *shell, t_tree *node)
 			shell->program_exit = WEXITSTATUS(status);
 		i++;
 	}
+	newl_and_sigint();
 	return (free(shell->pids), i);
 }
