@@ -6,7 +6,7 @@
 /*   By: edblazqu <edblazqu@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 11:39:16 by edblazqu          #+#    #+#             */
-/*   Updated: 2026/03/03 23:06:19 by asoria           ###   ########.fr       */
+/*   Updated: 2026/03/04 00:06:18 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,12 @@ static int	collect_cmd(t_tree *node, t_cmd ***cmds)
 static void	run_child(t_shell *shell, t_cmd *cmd, int in_fd, int *out_fd)
 {
 	setup_signals_child();
-	if (out_fd[0] != -1)
-		close(out_fd[0]);
-	if (in_fd != -1)
-	{
-		dup2(in_fd, STDIN_FILENO);
-		close(in_fd);
-	}
-	if (out_fd[1] != -1)
-	{
-		dup2(out_fd[1], STDOUT_FILENO);
-		close(out_fd[1]);
-	}
+	setup_pipe_fds(in_fd, out_fd);
 	if (!check_redirs(cmd) || !dup2_manager(cmd->redir))
+	{
+		child_pipe_black_hole(shell);
 		exit(126);
+	}
 	if (is_builtin(cmd, shell->envp))
 	{
 		execute_builtin(shell, cmd, &shell->envp);

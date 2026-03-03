@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 16:48:33 by asoria            #+#    #+#             */
-/*   Updated: 2026/02/25 01:41:54 by jaicastr         ###   ########.fr       */
+/*   Updated: 2026/03/04 00:05:33 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,15 @@ int	check_redirs(t_cmd *cmd)
 
 void	execute_external(t_cmd *cmd, t_shell *shell)
 {
-	char	*path;
 	pid_t	son;
 
 	if (!cmd || !shell)
 		return ;
+	cmd->execute = tokens_to_args(cmd->args);
 	setup_signals_running();
 	son = fork();
 	if (son == 0)
-	{
-		setup_signals_child();
-		if (!cmd || !check_redirs(cmd) || !cmd->execute)
-			exit(127);
-		if (!dup2_manager(cmd->redir))
-			exit (126);
-		path = search_cmd(cmd->execute[0], shell);
-		if (!path)
-		{
-			perror("minishell");
-			child_black_hole(shell, NULL);
-			exit(127);
-		}
-		execve(path, cmd->execute, shell->envp);
-		child_black_hole(shell, path);
-		exit(127);
-	}
+		child_exec(cmd, shell);
 }
 
 void	execute_command(t_shell *shell, t_cmd *cmd)
@@ -80,7 +64,6 @@ void	execute_command(t_shell *shell, t_cmd *cmd)
 		std_builtin(cmd, std_fd);
 		return ;
 	}
-	cmd->execute = tokens_to_args(cmd->args);
 	execute_external(cmd, shell);
 }
 

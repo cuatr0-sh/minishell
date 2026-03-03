@@ -6,7 +6,7 @@
 /*   By: asoria <asoria@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 02:47:47 by asoria            #+#    #+#             */
-/*   Updated: 2026/03/03 23:37:22 by asoria           ###   ########.fr       */
+/*   Updated: 2026/03/04 00:22:59 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ void		execute_external(t_cmd *cmd, t_shell *shell);
 
 /* executor_utils.c */
 void		set_invalid(int fd[2]);
+void		setup_pipe_fds(int in_fd, int *out_fd);
+void		child_exec(t_cmd *cmd, t_shell *shell);
 int			check_redirs(t_cmd *cmd);
 char		*search_cmd(char *cmd, t_shell *shell);
 
@@ -211,7 +213,7 @@ void		ms_exit(t_shell *shell, t_token *arg);
 int			is_environment_modifier(t_cmd *cmd);
 void		slash_path(t_shell *shell);
 int			count_tokens(t_token *tokens);
-int			all_spaces(char *input);
+int			all_spaces(char *str);
 
 /* utils2.c */
 char		*ms_getenv(char **envp, const char *name);
