@@ -6,7 +6,7 @@
 /*   By: edblazqu <edblazqu@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 11:47:40 by edblazqu          #+#    #+#             */
-/*   Updated: 2026/03/04 00:22:17 by asoria           ###   ########.fr       */
+/*   Updated: 2026/03/04 01:41:12 by asoria           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	set_invalid(int fd[2])
 
 void	setup_pipe_fds(int in_fd, int *out_fd)
 {
-	close(out_fd[0]);
+	if (out_fd[0] != -1)
+		close(out_fd[0]);
 	if (in_fd != -1)
 	{
 		dup2(in_fd, STDIN_FILENO);
