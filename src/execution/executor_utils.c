@@ -47,7 +47,7 @@ void	child_exec(t_cmd *cmd, t_shell *shell)
 	if (dup2_manager(cmd->redir) == 0)
 	{
 		child_black_hole(shell, NULL);
-		exit(126);
+		exit(1);
 	}
 	path = search_cmd(cmd->execute[0], shell);
 	if (!path)
