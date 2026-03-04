@@ -218,6 +218,7 @@ int			all_spaces(char *str);
 /* utils2.c */
 char		*ms_getenv(char **envp, const char *name);
 t_token		*last_token(t_token *start);
+void		initialize_things(int *prev_fd, int *i);
 void		newl_and_sigint(void);
 
 /* signals.c */

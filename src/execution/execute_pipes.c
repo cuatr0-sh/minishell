@@ -71,8 +71,7 @@ static void	fork_all(t_shell *shell, t_cmd **cmds, pid_t *pids, int n)
 	int	prev_fd;
 	int	i;
 
-	prev_fd = -1;
-	i = 0;
+	initialize_things(&prev_fd, &i);
 	while (i < n)
 	{
 		if (i < n - 1)
@@ -85,6 +84,7 @@ static void	fork_all(t_shell *shell, t_cmd **cmds, pid_t *pids, int n)
 			close_heredocs(cmds, n, i);
 			run_child(shell, cmds[i], prev_fd, fd);
 		}
+		close_heredocs(cmds, n, i);
 		if (prev_fd != -1)
 			close(prev_fd);
 		if (fd[1] != -1)
@@ -107,7 +107,7 @@ int	execute_pipe(t_shell *shell, t_tree *node)
 	if (!shell->pids)
 		return (free(shell->cmds), 0);
 	setup_signals_running();
-	fork_all(shell, shell->cmds, shell->pids, n),
+	fork_all(shell, shell->cmds, shell->pids, n);
 	free(shell->cmds);
 	i = 0;
 	while (i < n)

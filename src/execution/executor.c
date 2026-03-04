@@ -98,6 +98,7 @@ void	execute_pipeline(t_shell *shell)
 	if (node->type == N_CMD)
 	{
 		execute_command(shell, node->cmd);
+		close_heredocs(&node->cmd, 1, 1);
 		if (!is_builtin(node->cmd, shell->envp))
 			wait_child(shell);
 		return ;

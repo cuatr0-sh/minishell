@@ -49,3 +49,9 @@ void	newl_and_sigint(void)
 		g_signal = 0;
 	}
 }
+
+void	initialize_things(int *prev_fd, int *i)
+{
+	*i = 0;
+	*prev_fd = -1;
+}
