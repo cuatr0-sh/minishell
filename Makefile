@@ -73,6 +73,7 @@ clean:
 	$(RM) -f ".msrc"
 	$(RM) -f ".ms_history"
 	$(RM) -rf $(OBJ_DIR)
+	$(RM) -rf $(SRC_DIR)/.ms_history
 	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean:
